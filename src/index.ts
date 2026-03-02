@@ -60,14 +60,13 @@ setupPromises.push((async () => {
         ) => {
             if (command.config && (command.config.enabled ?? true)) {
                 // set command entry
+                let name: string;
                 client.commands.set(name = command.config.name, command);
 
                 client.aliases.interaction.component
                     .set(command.config.componentAlias, name);
-
-                Object.entries(command.interaction[
-                    t = Discord.InteractionType.ApplicationCommand
-                ]).forEach(([ a, value ]) =>
+                let t = Discord.InteractionType.ApplicationCommand;
+                Object.entries(command.interaction[t]).forEach(([ a, value ]) =>
                     client.aliases.interaction[t][a].set(value.data.name, name)
                 );
             }
