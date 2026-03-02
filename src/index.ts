@@ -1,12 +1,14 @@
 import FileSystem from "node:fs/promises";
-import Path from "node:path";
 import Module from "node:module";
+import Path from "node:path";
+import Url from "node:url";
 import * as Discord from "discord.js";
 import type { Client } from "./types/client.ts";
 
 const require: (string) => any = Module.createRequire(import.meta.url);
 
-let resolvePath = (...path) => Path.resolve(import.meta.url, ...path);
+const importURL = Url.fileURLToPath(import.meta.url);
+let resolvePath = (...path) => Path.resolve(importURL, ...path);
 let getImport = async (...path) => require(resolvePath(...path));
 
 let collectionsFromKeys = (...keys: (keyof any)[]) =>
